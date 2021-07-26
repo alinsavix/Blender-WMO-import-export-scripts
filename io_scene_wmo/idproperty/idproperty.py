@@ -361,7 +361,16 @@ def load_file_shim(_=None):
     load_file()
 
 
+classes = (
+    ObjectPickerOperator,
+    ViewOperatorRayCast,
+    FindSelected,
+)
+
 def register():
+    from bpy.utils import register_class
+    for cls in classes:
+        register_class(cls)
 
     for col_name, type_name in SUPPORTED_COLLECTIONS:
         type = getattr(bpy.types, type_name)
@@ -372,10 +381,11 @@ def register():
             p.IntProperty(name="unique id counter", default=1))
 
     handlers.load_post.append(load_file)
-    handlers.scene_update_pre.append(load_file_shim)
+    # handlers.scene_update_pre.append(load_file_shim)
 
 
 def unregister():
+    handlers.load_post.remove(load_file)
 
     for col_name, type_name in SUPPORTED_COLLECTIONS:
         type = getattr(bpy.types, type_name)
@@ -383,4 +393,6 @@ def unregister():
         counter_name = col_name + "_id_counter"
         delattr(bpy.types.Scene, counter_name)
 
-    handlers.load_post.remove(load_file)
+    from bpy.utils import unregister_class
+    for cls in reversed(classes):
+        unregister_class(cls)

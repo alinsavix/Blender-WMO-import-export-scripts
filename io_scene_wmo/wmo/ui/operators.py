@@ -1354,7 +1354,7 @@ class OBJECT_OP_To_WoWMaterial(bpy.types.Operator):
         col.prop(self, "BlendingMode")
 
         col.separator()
-        col.label("Flags:")
+        col.label(text="Flags:")
         col.prop(self, "Flags")
 
         col.separator()
@@ -1422,8 +1422,42 @@ class WOW_WMO_SELECT_ENTITY(bpy.types.Operator):
                     if getattr(obj, self.Entity).Enabled:
                         obj.select = True
 
-            elif obj.type == 'LAMP':
+            elif obj.type == 'LIGHT':
                if self.Entity == "WowLight":
                    obj.select = True
 
         return {'FINISHED'}
+
+classes = (
+    IMPORT_ADT_SCENE,
+    IMPORT_LAST_WMO_FROM_WMV,
+    DOODADS_BAKE_COLOR,
+    DOODAD_SET_CLEAR_PRESERVED,
+    DOODAD_SET_ADD,
+    DOODAD_SET_COLOR,
+    DOODAD_SET_TEMPLATE_ACTION,
+    OBJECT_OP_ADD_FLAG,
+    OBJECT_OP_Bake_Portal_Relations,
+    OBJECT_OP_Add_Scale,
+    OBJECT_OP_Add_Water,
+    OBJECT_OP_Add_Fog,
+    OBJECT_OP_Invert_Portals,
+    OBJECT_OP_Fill_Textures,
+    OBJECT_OP_Quick_Collision,
+    OBJECT_OP_Texface_to_material,
+    OBJECT_OP_To_WMOPortal,
+    OBJECT_OP_To_Group,
+    OBJECT_OP_To_WoWMaterial,
+    WOW_WMO_SELECT_ENTITY,
+)
+
+def register():
+    from bpy.utils import register_class
+    for cls in classes:
+        register_class(cls)
+
+
+def unregister():
+    from bpy.utils import unregister_class
+    for cls in reversed(classes):
+        unregister_class(cls)

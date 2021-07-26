@@ -341,7 +341,7 @@ class WMOFile:
                 raise Exception("Light type unknown : {} (light nbr : {})".format(str(l.LightType), str(i)))
 
             light_name = self.display_name + "_Light_" + str(i).zfill(2)
-            light = bpy.data.lamps.new(light_name, l_type)
+            light = bpy.data.lights.new(light_name, l_type)
             light.color = (l.Color[2] / 255, l.Color[1] / 255, l.Color[0] / 255)
             light.energy = l.Intensity
 
@@ -1052,7 +1052,7 @@ class BlenderSceneObjects:
                         continue
                     group.WowWMOGroup.Relations.Liquid = obj.name
 
-            elif obj.type == 'LAMP' and obj.data.WowLight.Enabled:
+            elif obj.type == 'LIGHT' and obj.data.WowLight.Enabled:
                 self.lights.append(obj)
 
             elif obj.type == 'EMPTY':

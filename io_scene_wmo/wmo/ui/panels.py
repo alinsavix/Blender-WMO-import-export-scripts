@@ -60,19 +60,18 @@ class MODD_Definition(bpy.types.PropertyGroup):
 
 
 class WowRootPropertyGroup(bpy.types.PropertyGroup):
+    MODS_Sets: bpy.props.CollectionProperty(type=MODS_Set)
+    MODN_StringTable: bpy.props.CollectionProperty(type=MODN_String)
+    MODD_Definitions: bpy.props.CollectionProperty(type=MODD_Definition)
 
-    MODS_Sets = bpy.props.CollectionProperty(type=MODS_Set)
-    MODN_StringTable = bpy.props.CollectionProperty(type=MODN_String)
-    MODD_Definitions = bpy.props.CollectionProperty(type=MODD_Definition)
-
-    Flags = bpy.props.EnumProperty(
+    Flags: bpy.props.EnumProperty(
         name="Root flags",
         description="WoW WMO root flags",
         items=root_flags_enum,
         options={"ENUM_FLAG"}
         )
 
-    AmbientColor = bpy.props.FloatVectorProperty(
+    AmbientColor: bpy.props.FloatVectorProperty(
         name="Ambient Color",
         subtype='COLOR',
         default=(1, 1, 1, 1),
@@ -81,13 +80,13 @@ class WowRootPropertyGroup(bpy.types.PropertyGroup):
         max=1.0
         )
 
-    SkyboxPath =  bpy.props.StringProperty(
+    SkyboxPath:  bpy.props.StringProperty(
         name="SkyboxPath",
         description="Skybox for WMO (.MDX)",
         default='',
         )
 
-    WMOid = bpy.props.IntProperty(
+    WMOid: bpy.props.IntProperty(
         name="WMO DBC ID",
         description="Used in WMOAreaTable (optional)",
         default=0,
@@ -121,7 +120,7 @@ class WoWDoodadPanel(bpy.types.Panel):
         layout.prop(context.object.WoWDoodad, "Color")
 
         col = layout.column()
-        col.label("Flags:")
+        col.label(text="Flags:")
         col.prop(context.object.WoWDoodad, "Flags")
         layout.enabled = context.object.WoWDoodad.Enabled
 
@@ -133,10 +132,9 @@ class WoWDoodadPanel(bpy.types.Panel):
 
 
 class WoWDoodadPropertyGroup(bpy.types.PropertyGroup):
+    Path: bpy.props.StringProperty()
 
-    Path = bpy.props.StringProperty()
-
-    Color = bpy.props.FloatVectorProperty(
+    Color: bpy.props.FloatVectorProperty(
         name="Color",
         subtype='COLOR',
         size=4,
@@ -145,7 +143,7 @@ class WoWDoodadPropertyGroup(bpy.types.PropertyGroup):
         max=1.0
         )
 
-    Flags = bpy.props.EnumProperty(
+    Flags: bpy.props.EnumProperty(
         name ="Doodad flags",
         description ="WoW doodad instance flags",
         items =[
@@ -156,7 +154,7 @@ class WoWDoodadPropertyGroup(bpy.types.PropertyGroup):
         options={"ENUM_FLAG"}
         )
 
-    Enabled = bpy.props.BoolProperty(
+    Enabled: bpy.props.BoolProperty(
         name="",
         description="Enable WoW Doodad properties"
         )
@@ -196,7 +194,7 @@ class WowMaterialPanel(bpy.types.Panel):
         col.prop(context.material.WowMaterial, "Texture2")
 
         col.separator()
-        col.label("Flags:")
+        col.label(text="Flags:")
         col.prop(context.material.WowMaterial, "Flags")
 
         layout.prop(context.material.WowMaterial, "EmissiveColor")
@@ -209,37 +207,36 @@ class WowMaterialPanel(bpy.types.Panel):
 
 
 class WowMaterialPropertyGroup(bpy.types.PropertyGroup):
-
-    Enabled = bpy.props.BoolProperty(
+    Enabled: bpy.props.BoolProperty(
         name="",
         description="Enable WoW material properties"
         )
 
-    Flags = bpy.props.EnumProperty(
+    Flags: bpy.props.EnumProperty(
         name="Material flags",
         description="WoW material flags",
         items=material_flag_enum,
         options={"ENUM_FLAG"}
         )
 
-    Shader = bpy.props.EnumProperty(
+    Shader: bpy.props.EnumProperty(
         items=shader_enum,
         name="Shader",
         description="WoW shader assigned to this material"
         )
 
-    BlendingMode = bpy.props.EnumProperty(
+    BlendingMode: bpy.props.EnumProperty(
         items=blending_enum,
         name="Blending",
         description="WoW material blending mode"
         )
 
-    Texture1 = bpy.props.StringProperty(
+    Texture1: bpy.props.StringProperty(
         name="Texture 1",
         description="Diffuse texture"
         )
 
-    EmissiveColor = bpy.props.FloatVectorProperty(
+    EmissiveColor: bpy.props.FloatVectorProperty(
         name="Emissive Color",
         subtype='COLOR',
         default=(1,1,1,1),
@@ -248,12 +245,12 @@ class WowMaterialPropertyGroup(bpy.types.PropertyGroup):
         max=1.0
         )
 
-    Texture2 = bpy.props.StringProperty(
+    Texture2: bpy.props.StringProperty(
         name="Texture 2",
         description="Environment texture"
         )
 
-    DiffColor = bpy.props.FloatVectorProperty(
+    DiffColor: bpy.props.FloatVectorProperty(
         name="Diffuse Color",
         subtype='COLOR',
         default=(1,1,1,1),
@@ -262,7 +259,7 @@ class WowMaterialPropertyGroup(bpy.types.PropertyGroup):
         max=1.0
         )
 
-    TerrainType = bpy.props.EnumProperty(
+    TerrainType: bpy.props.EnumProperty(
         items=terrain_type_enum,
         name="Terrain Type",
         description="Terrain type assigned to this material. Used for producing correct footstep sounds."
@@ -303,39 +300,38 @@ class WowLightPanel(bpy.types.Panel):
     def poll(cls, context):
         return (context.object is not None
                 and context.object.data is not None
-                and isinstance(context.object.data, bpy.types.Lamp)
+                and isinstance(context.object.data, bpy.types.Light)
                 )
 
 
 class WowLightPropertyGroup(bpy.types.PropertyGroup):
-
-    Enabled = bpy.props.BoolProperty(
+    Enabled: bpy.props.BoolProperty(
         name="",
         description="Enable wow light properties"
         )
 
-    LightType = bpy.props.EnumProperty(
+    LightType: bpy.props.EnumProperty(
         items=light_type_enum,
         name="Type",
         description="Type of the lamp"
         )
 
-    Type = bpy.props.BoolProperty(
+    Type: bpy.props.BoolProperty(
         name="Type",
         description="Unknown"
         )
 
-    UseAttenuation = bpy.props.BoolProperty(
+    UseAttenuation: bpy.props.BoolProperty(
         name="Use attenuation",
         description="True if lamp use attenuation"
         )
 
-    Padding = bpy.props.BoolProperty(
+    Padding: bpy.props.BoolProperty(
         name="Padding",
         description="True if lamp use Padding"
         )
 
-    Color = bpy.props.FloatVectorProperty(
+    Color: bpy.props.FloatVectorProperty(
         name="Color",
         subtype='COLOR',
         default=(1,1,1),
@@ -343,12 +339,12 @@ class WowLightPropertyGroup(bpy.types.PropertyGroup):
         max=1.0
         )
 
-    Intensity = bpy.props.FloatProperty(
+    Intensity: bpy.props.FloatProperty(
         name="Intensity",
         description="Intensity of the lamp"
         )
 
-    ColorAlpha = bpy.props.FloatProperty(
+    ColorAlpha: bpy.props.FloatProperty(
         name="ColorAlpha",
         description="Color alpha",
         default=1,
@@ -356,23 +352,23 @@ class WowLightPropertyGroup(bpy.types.PropertyGroup):
         max=1.0
         )
 
-    AttenuationStart = bpy.props.FloatProperty(
+    AttenuationStart: bpy.props.FloatProperty(
         name="Attenuation start",
         description="Distance at which light intensity starts to decrease"
         )
 
-    AttenuationEnd = bpy.props.FloatProperty(
+    AttenuationEnd: bpy.props.FloatProperty(
         name="Attenuation end",
         description="Distance at which light intensity reach 0"
         )
 
 
 def RegisterWowLightProperties():
-    bpy.types.Lamp.WowLight = bpy.props.PointerProperty(type=WowLightPropertyGroup)
+    bpy.types.Light.WowLight = bpy.props.PointerProperty(type=WowLightPropertyGroup)
 
 
 def UnregisterWowLightProperties():
-    bpy.types.Lamp.WowLight = None
+    bpy.types.Light.WowLight = None
 
 
 ###############################
@@ -426,20 +422,20 @@ class WowVertexInfoPanel(bpy.types.Panel):
                 )
 
 class WowVertexInfoPropertyGroup(bpy.types.PropertyGroup):
-    VertexGroup = bpy.props.StringProperty()
+    VertexGroup: bpy.props.StringProperty()
 
-    NodeSize = bpy.props.IntProperty(
+    NodeSize: bpy.props.IntProperty(
         name="Node max size",
         description="Max count of faces for a node in bsp tree",
         default=2500, min=1,
         soft_max=5000
         )
 
-    BatchTypeA = bpy.props.StringProperty()
-    BatchTypeB = bpy.props.StringProperty()
-    Lightmap = bpy.props.StringProperty()
-    Blendmap = bpy.props.StringProperty()
-    SecondUV = bpy.props.StringProperty()
+    BatchTypeA: bpy.props.StringProperty()
+    BatchTypeB: bpy.props.StringProperty()
+    Lightmap: bpy.props.StringProperty()
+    Blendmap: bpy.props.StringProperty()
+    SecondUV: bpy.props.StringProperty()
 
 def RegisterWowVertexInfoProperties():
     bpy.types.Object.WowVertexInfo = bpy.props.PointerProperty(type=WowVertexInfoPropertyGroup)
@@ -466,12 +462,12 @@ class WowWMOGroupPanel(bpy.types.Panel):
         col.prop(context.object.WowWMOGroup, "GroupDesc")
 
         col.separator()
-        col.label("Flags:")
+        col.label(text="Flags:")
         col.prop(context.object.WowWMOGroup, "PlaceType")
         col.prop(context.object.WowWMOGroup, "Flags")
 
         col.separator()
-        col.label("Fogs:")
+        col.label(text="Fogs:")
         idproperty.layout_id_prop(col, context.object.WowWMOGroup, "Fog1")
         idproperty.layout_id_prop(col, context.object.WowWMOGroup, "Fog2")
         idproperty.layout_id_prop(col, context.object.WowWMOGroup, "Fog3")
@@ -499,73 +495,71 @@ def fog_validator(ob):
     return ob.WowFog.Enabled
 
 class WowWMOMODRStore(bpy.types.PropertyGroup):
-    value = bpy.props.IntProperty(name="Doodads Ref")
+    value: bpy.props.IntProperty(name="Doodads Ref")
 
 class WowWMOPortalRel(bpy.types.PropertyGroup):
-    id = bpy.props.StringProperty()
+    id: bpy.props.StringProperty()
 
 class WowWMOLightRel(bpy.types.PropertyGroup):
-    id = bpy.props.IntProperty()
+    id: bpy.props.IntProperty()
 
 class WowWMODoodadRel(bpy.types.PropertyGroup):
-    id = bpy.props.IntProperty()
+    id: bpy.props.IntProperty()
 
 class WowWMOGroupRelations(bpy.types.PropertyGroup):
     """Used for export internally"""
-    Portals = bpy.props.CollectionProperty(type=WowWMOPortalRel)
-    Lights = bpy.props.CollectionProperty(type=WowWMOLightRel)
-    Liquid = bpy.props.StringProperty()
-    Doodads = bpy.props.CollectionProperty(type=WowWMODoodadRel)
+    Portals: bpy.props.CollectionProperty(type=WowWMOPortalRel)
+    Lights: bpy.props.CollectionProperty(type=WowWMOLightRel)
+    Liquid: bpy.props.StringProperty()
+    Doodads: bpy.props.CollectionProperty(type=WowWMODoodadRel)
 
 
 class WowWMOGroupPropertyGroup(bpy.types.PropertyGroup):
+    GroupDesc: bpy.props.StringProperty(name="Description")
 
-    GroupDesc = bpy.props.StringProperty(name="Description")
-
-    Enabled = bpy.props.BoolProperty(
+    Enabled: bpy.props.BoolProperty(
         name="",
         description="Enable wow WMO group properties"
         )
 
-    Flags = bpy.props.EnumProperty(
+    Flags: bpy.props.EnumProperty(
         items=group_flag_enum,
         options={'ENUM_FLAG'}
         )
 
-    PlaceType = bpy.props.EnumProperty(
+    PlaceType: bpy.props.EnumProperty(
         items=place_type_enum,
         name="Place Type",
         description="Group is indoor or outdoor"
         )
 
-    GroupID = bpy.props.IntProperty(
+    GroupID: bpy.props.IntProperty(
         name="",
         description="Group identifier used for export"
         )
 
-    GroupDBCid = bpy.props.IntProperty(
+    GroupDBCid: bpy.props.IntProperty(
         name="DBC Group ID",
         description="WMO Group ID in DBC file"
         )
 
-    LiquidType = bpy.props.EnumProperty(
+    LiquidType: bpy.props.EnumProperty(
         items=liquid_type_enum,
         name="LiquidType",
         description="Fill this WMO group with selected liquid."
         )
 
-    Fog1 = idproperty.ObjectIDProperty(name="Fog #1", validator=fog_validator)
+    Fog1: idproperty.ObjectIDProperty(name="Fog #1", validator=fog_validator)
 
-    Fog2 = idproperty.ObjectIDProperty(name="Fog #2", validator=fog_validator)
+    Fog2: idproperty.ObjectIDProperty(name="Fog #2", validator=fog_validator)
 
-    Fog3 = idproperty.ObjectIDProperty(name="Fog #3", validator=fog_validator)
+    Fog3: idproperty.ObjectIDProperty(name="Fog #3", validator=fog_validator)
 
-    Fog4 = idproperty.ObjectIDProperty(name="Fog #4", validator=fog_validator)
+    Fog4: idproperty.ObjectIDProperty(name="Fog #4", validator=fog_validator)
 
+    MODR: bpy.props.CollectionProperty(type=WowWMOMODRStore)
 
-    MODR = bpy.props.CollectionProperty(type=WowWMOMODRStore)
-
-    Relations = bpy.props.PointerProperty(type=WowWMOGroupRelations)
+    Relations: bpy.props.PointerProperty(type=WowWMOGroupRelations)
 
 def RegisterWowWMOGroupProperties():
     bpy.types.Object.WowWMOGroup = bpy.props.PointerProperty(type=WowWMOGroupPropertyGroup)
@@ -599,7 +593,7 @@ class WowPortalPlanePanel(bpy.types.Panel):
         col = layout.column()
 
         col.separator()
-        col.label("Relation direction:")
+        col.label(text="Relation direction:")
         col.prop(context.object.WowPortalPlane, "Algorithm", expand=True)
 
         idproperty.enabled = context.object.WowLiquid.Enabled
@@ -620,28 +614,27 @@ def portal_validator(ob):
     return ob.type == 'MESH' and ob.WowWMOGroup.Enabled
 
 class WowPortalPlanePropertyGroup(bpy.types.PropertyGroup):
-
-    Enabled = bpy.props.BoolProperty(
+    Enabled: bpy.props.BoolProperty(
         name="",
         description="Enable wow WMO group properties"
         )
 
-    First = idproperty.ObjectIDProperty(
+    First: idproperty.ObjectIDProperty(
         name="First group",
         validator=portal_validator
         )
 
-    Second = idproperty.ObjectIDProperty(
+    Second: idproperty.ObjectIDProperty(
         name="Second group",
         validator=portal_validator
         )
 
-    PortalID = bpy.props.IntProperty(
+    PortalID: bpy.props.IntProperty(
         name="Portal's ID",
         description="Portal ID"
         )
 
-    Algorithm = bpy.props.EnumProperty(
+    Algorithm: bpy.props.EnumProperty(
         items=portal_dir_alg_enum,
         default="0"
         )
@@ -694,14 +687,13 @@ def liquid_validator(ob):
     return ob.WowWMOGroup.Enabled
 
 class WowLiquidPropertyGroup(bpy.types.PropertyGroup):
-
-    Enabled = bpy.props.BoolProperty(
+    Enabled: bpy.props.BoolProperty(
         name="",
         description="Enable wow liquid properties",
         default=False
         )
 
-    Color = bpy.props.FloatVectorProperty(
+    Color: bpy.props.FloatVectorProperty(
         name="Color",
         subtype='COLOR',
         default=(0.08, 0.08, 0.08, 1),
@@ -710,13 +702,13 @@ class WowLiquidPropertyGroup(bpy.types.PropertyGroup):
         max=1.0
         )
 
-    LiquidType = bpy.props.EnumProperty(
+    LiquidType: bpy.props.EnumProperty(
         items=liquid_type_enum,
         name="Liquid Type",
         description="Type of the liquid present in this WMO group"
         )
 
-    WMOGroup = idproperty.ObjectIDProperty(
+    WMOGroup: idproperty.ObjectIDProperty(
         name="WMO Group",
         validator=liquid_validator
         )
@@ -767,31 +759,30 @@ def UpdateFogColor(self, context):
 
 
 class WowFogPropertyGroup(bpy.types.PropertyGroup):
-
-    Enabled = bpy.props.BoolProperty(
+    Enabled: bpy.props.BoolProperty(
         name="",
         description="Enable WoW WMO fog properties"
         )
 
-    FogID = bpy.props.IntProperty(
+    FogID: bpy.props.IntProperty(
         name="WMO Group ID",
         description="Used internally for exporting",
         default= 0,
         )
 
-    IgnoreRadius = bpy.props.BoolProperty(
+    IgnoreRadius: bpy.props.BoolProperty(
         name="Ignore Radius",
         description="Ignore radius in CWorldView::QueryCameraFog",
         default = False
         )
 
-    Unknown = bpy.props.BoolProperty(
+    Unknown: bpy.props.BoolProperty(
         name="Unknown Flag",
         description="Check that in if you know what it is",
         default = False
         )
 
-    InnerRadius = bpy.props.FloatProperty(
+    InnerRadius: bpy.props.FloatProperty(
         name="Inner Radius (%)",
         description="A radius of fog starting to fade",
         default=100.0,
@@ -799,7 +790,7 @@ class WowFogPropertyGroup(bpy.types.PropertyGroup):
         max=100.0
         )
 
-    EndDist = bpy.props.FloatProperty(
+    EndDist: bpy.props.FloatProperty(
         name="Farclip",
         description="Fog farclip",
         default=70.0,
@@ -807,7 +798,7 @@ class WowFogPropertyGroup(bpy.types.PropertyGroup):
         max=2048.0
         )
 
-    StartFactor = bpy.props.FloatProperty(
+    StartFactor: bpy.props.FloatProperty(
         name="Nearclip",
         description="Fog nearclip",
         default=0.1,
@@ -815,7 +806,7 @@ class WowFogPropertyGroup(bpy.types.PropertyGroup):
         max=1.0
         )
 
-    Color1 = bpy.props.FloatVectorProperty(
+    Color1: bpy.props.FloatVectorProperty(
         name="Color",
         subtype='COLOR',
         default=(1,1,1),
@@ -824,7 +815,7 @@ class WowFogPropertyGroup(bpy.types.PropertyGroup):
         update=UpdateFogColor
         )
 
-    EndDist2 = bpy.props.FloatProperty(
+    EndDist2: bpy.props.FloatProperty(
         name="Underwater farclip",
         description="Underwater fog farclip",
         default=70.0,
@@ -832,7 +823,7 @@ class WowFogPropertyGroup(bpy.types.PropertyGroup):
         max=250.0
         )
 
-    StartFactor2 = bpy.props.FloatProperty(
+    StartFactor2: bpy.props.FloatProperty(
         name="Underwater nearclip",
         description="Underwater fog nearclip",
         default=0.1,
@@ -840,7 +831,7 @@ class WowFogPropertyGroup(bpy.types.PropertyGroup):
         max=1.0
         )
 
-    Color2 = bpy.props.FloatVectorProperty(
+    Color2: bpy.props.FloatVectorProperty(
         name="Underwater Color",
         subtype='COLOR',
         default=(1,1,1),
@@ -874,7 +865,7 @@ def update_wow_visibility(self, context):
                 obj.hide = False if '3' in values else True
             elif obj.WowLiquid.Enabled:
                 obj.hide = False if '4' in values else True
-        elif obj.type == "LAMP" and obj.data.WowLight.Enabled:
+        elif obj.type == "LIGHT" and obj.data.WowLight.Enabled:
             obj.hide = False if '5' in values else True
 
 
@@ -972,7 +963,8 @@ class WMOToolsPanelObjectMode(bpy.types.Panel):
     bl_label = 'Quick WMO'
     bl_idname = 'WMOQuickPanelObjMode'
     bl_space_type = 'VIEW_3D'
-    bl_region_type = 'TOOLS'
+    # bl_region_type = 'TOOLS'
+    bl_region_type = 'UI'
     bl_context = 'objectmode'
     bl_category = 'WMO'
 
@@ -1055,7 +1047,7 @@ class ConvertOperators(bpy.types.Menu):
         col.operator("scene.wow_selected_objects_to_portals", text='To WMO portal', icon='MOD_MIRROR')
         col.operator("scene.wow_texface_to_material", text='Texface to material', icon='TEXTURE_DATA')
 
-class INFO_MT_mesh_WoW_components_add(bpy.types.Menu):
+class VIEW3D_MT_mesh_WoW_components_add(bpy.types.Menu):
     bl_label = "WoW"
     bl_idname = "view3D.add_wow_components_menu"
     bl_options = {'REGISTER'}
@@ -1079,7 +1071,7 @@ class WoWToolsPanelLiquidFlags(bpy.types.Panel):
     bl_label = 'Liquid Flags'
     bl_idname = 'WMOQuickPanelVertexColorMode'
     bl_space_type = 'VIEW_3D'
-    bl_region_type = 'TOOLS'
+    bl_region_type = 'UI'
     bl_context = 'vertexpaint'
     bl_category = 'WMO'
 
@@ -1106,7 +1098,46 @@ class WoWToolsPanelLiquidFlags(bpy.types.Panel):
                 and context.object.WowLiquid.Enabled
                 )
 
+
+classes = (
+    WoWRootPanel,
+    MODS_Set,
+    MODN_String,
+    MODD_Definition,
+    WowRootPropertyGroup,
+    WoWDoodadPanel,
+    WoWDoodadPropertyGroup,
+    WowMaterialPanel,
+    WowMaterialPropertyGroup,
+    WowLightPanel,
+    WowLightPropertyGroup,
+    WowVertexInfoPanel,
+    WowVertexInfoPropertyGroup,
+    WowWMOGroupPanel,
+    WowWMOMODRStore,
+    WowWMOPortalRel,
+    WowWMOLightRel,
+    WowWMODoodadRel,
+    WowWMOGroupRelations,
+    WowWMOGroupPropertyGroup,
+    WowPortalPlanePanel,
+    WowPortalPlanePropertyGroup,
+    WowLiquidPanel,
+    WowLiquidPropertyGroup,
+    WowFogPanel,
+    WowFogPropertyGroup,
+    WMOToolsPanelObjectMode,
+    ConvertOperators,
+    VIEW3D_MT_mesh_WoW_components_add,
+    WoWToolsPanelLiquidFlags,
+)
+
 def register():
+    from bpy.utils import register_class
+    for cls in classes:
+        print(f"registering {cls}")
+        register_class(cls)
+
     RegisterWowRootProperties()
     RegisterWoWDoodadProperties()
     RegisterWowMaterialProperties()
@@ -1117,9 +1148,16 @@ def register():
     RegisterWowPortalPlaneProperties()
     RegisterWoWVisibilityProperties()
     RegisterWowFogProperties()
-    bpy.types.INFO_MT_add.prepend(wow_components_add_menu_item)
+
+    bpy.types.VIEW3D_MT_add.prepend(wow_components_add_menu_item)
 
 def unregister():
+    bpy.types.VIEW3D_MT_add.remove(wow_components_add_menu_item)
+
+    from bpy.utils import unregister_class
+    for cls in reversed(classes):
+        unregister_class(cls)
+
     UnregisterWowRootProperties()
     UnregisterWoWDoodadProperties()
     UnregisterWowMaterialProperties()
@@ -1130,7 +1168,3 @@ def unregister():
     UnregisterWowPortalPlaneProperties()
     UnregisterWoWVisibilityProperties()
     UnregisterWowFogProperties()
-    bpy.types.INFO_MT_add.remove(wow_components_add_menu_item)
-
-
-

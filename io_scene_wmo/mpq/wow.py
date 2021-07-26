@@ -204,3 +204,19 @@ class WOW_FILESYSTEM_LOAD_OP(bpy.types.Operator):
             self.report({'INFO'}, "WoW game data is loaded.")
 
         return {'FINISHED'}
+
+
+classes = (
+    WOW_FILESYSTEM_LOAD_OP,
+)
+
+def register():
+    from bpy.utils import register_class
+    for cls in classes:
+        register_class(cls)
+
+
+def unregister():
+    from bpy.utils import unregister_class
+    for cls in reversed(classes):
+        unregister_class(cls)
