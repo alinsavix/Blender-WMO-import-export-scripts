@@ -1,5 +1,5 @@
 from .enums import *
-from ...idproperty import idproperty
+# from ...idproperty import idproperty
 
 import bpy
 
@@ -468,16 +468,15 @@ class WowWMOGroupPanel(bpy.types.Panel):
 
         col.separator()
         col.label(text="Fogs:")
-        idproperty.layout_id_prop(col, context.object.WowWMOGroup, "Fog1")
-        idproperty.layout_id_prop(col, context.object.WowWMOGroup, "Fog2")
-        idproperty.layout_id_prop(col, context.object.WowWMOGroup, "Fog3")
-        idproperty.layout_id_prop(col, context.object.WowWMOGroup, "Fog4")
-
+        col.prop(context.object.WowWMOGroup, "Fog1")
+        col.prop(context.object.WowWMOGroup, "Fog2")
+        col.prop(context.object.WowWMOGroup, "Fog3")
+        col.prop(context.object.WowWMOGroup, "Fog4")
         col.separator()
         col.prop(context.object.WowWMOGroup, "GroupDBCid")
         col.prop(context.object.WowWMOGroup, "LiquidType")
 
-        idproperty.enabled = context.object.WowLiquid.Enabled
+        # idproperty.enabled = context.object.WowLiquid.Enabled   # FIXME: ?????
         self.layout.enabled = context.object.WowWMOGroup.Enabled
 
     @classmethod
@@ -520,46 +519,66 @@ class WowWMOGroupPropertyGroup(bpy.types.PropertyGroup):
     Enabled: bpy.props.BoolProperty(
         name="",
         description="Enable wow WMO group properties"
-        )
+    )
 
     Flags: bpy.props.EnumProperty(
         items=group_flag_enum,
         options={'ENUM_FLAG'}
-        )
+    )
 
     PlaceType: bpy.props.EnumProperty(
         items=place_type_enum,
         name="Place Type",
         description="Group is indoor or outdoor"
-        )
+    )
 
     GroupID: bpy.props.IntProperty(
         name="",
         description="Group identifier used for export"
-        )
+    )
 
     GroupDBCid: bpy.props.IntProperty(
         name="DBC Group ID",
         description="WMO Group ID in DBC file"
-        )
+    )
 
     LiquidType: bpy.props.EnumProperty(
         items=liquid_type_enum,
         name="LiquidType",
         description="Fill this WMO group with selected liquid."
-        )
+    )
 
-    Fog1: idproperty.ObjectIDProperty(name="Fog #1", validator=fog_validator)
+    Fog1: bpy.props.PointerProperty(
+        type=bpy.types.Object,
+        name="Fog #1",
+        # validator=fog_validator,
+    )
 
-    Fog2: idproperty.ObjectIDProperty(name="Fog #2", validator=fog_validator)
+    Fog2: bpy.props.PointerProperty(
+        type=bpy.types.Object,
+        name="Fog #2",
+        # validator=fog_validator,
+    )
 
-    Fog3: idproperty.ObjectIDProperty(name="Fog #3", validator=fog_validator)
+    Fog3: bpy.props.PointerProperty(
+        type=bpy.types.Object,
+        name="Fog #3",
+        # validator=fog_validator,
+    )
 
-    Fog4: idproperty.ObjectIDProperty(name="Fog #4", validator=fog_validator)
+    Fog4: bpy.props.PointerProperty(
+        type=bpy.types.Object,
+        name="Fog #4",
+        # validator=fog_validator,
+    )
 
-    MODR: bpy.props.CollectionProperty(type=WowWMOMODRStore)
+    MODR: bpy.props.CollectionProperty(
+        type=WowWMOMODRStore,
+    )
 
-    Relations: bpy.props.PointerProperty(type=WowWMOGroupRelations)
+    Relations: bpy.props.PointerProperty(
+        type=WowWMOGroupRelations,
+    )
 
 def RegisterWowWMOGroupProperties():
     bpy.types.Object.WowWMOGroup = bpy.props.PointerProperty(type=WowWMOGroupPropertyGroup)
@@ -587,16 +606,15 @@ class WowPortalPlanePanel(bpy.types.Panel):
         row = layout.row()
 
         column = layout.column()
-        idproperty.layout_id_prop(column, context.object.WowPortalPlane, "First")
-        idproperty.layout_id_prop(column, context.object.WowPortalPlane, "Second")
-
+        column.prop(context.object.WowPortalPlane, "First")
+        column.prop(context.object.WowPortalPlane, "Second")
         col = layout.column()
 
         col.separator()
         col.label(text="Relation direction:")
         col.prop(context.object.WowPortalPlane, "Algorithm", expand=True)
 
-        idproperty.enabled = context.object.WowLiquid.Enabled
+        # idproperty.enabled = context.object.WowLiquid.Enabled  # FIXME: ?????
         layout.enabled = context.object.WowPortalPlane.Enabled
 
     @classmethod
@@ -617,27 +635,29 @@ class WowPortalPlanePropertyGroup(bpy.types.PropertyGroup):
     Enabled: bpy.props.BoolProperty(
         name="",
         description="Enable wow WMO group properties"
-        )
+    )
 
-    First: idproperty.ObjectIDProperty(
+    First: bpy.props.PointerProperty(
+        type=bpy.types.Object,
         name="First group",
-        validator=portal_validator
-        )
+        # validator=portal_validator,
+    )
 
-    Second: idproperty.ObjectIDProperty(
+    Second: bpy.props.PointerProperty(
+        type=bpy.types.Object,
         name="Second group",
-        validator=portal_validator
-        )
+        # validator=portal_validator,
+    )
 
     PortalID: bpy.props.IntProperty(
         name="Portal's ID",
         description="Portal ID"
-        )
+    )
 
     Algorithm: bpy.props.EnumProperty(
         items=portal_dir_alg_enum,
         default="0"
-        )
+    )
 
 
 def RegisterWowPortalPlaneProperties():
@@ -666,9 +686,9 @@ class WowLiquidPanel(bpy.types.Panel):
         self.layout.prop(context.object.WowLiquid, "Color")
 
         column = layout.column()
-        idproperty.layout_id_prop(column, context.object.WowLiquid, "WMOGroup")
+        column.prop(context.object.WowLiquid, "WMOGroup")
 
-        idproperty.enabled = context.object.WowLiquid.Enabled
+        # idproperty.enabled = context.object.WowLiquid.Enabled  # ?????
         layout.enabled = context.object.WowLiquid.Enabled
 
     @classmethod
@@ -691,7 +711,7 @@ class WowLiquidPropertyGroup(bpy.types.PropertyGroup):
         name="",
         description="Enable wow liquid properties",
         default=False
-        )
+    )
 
     Color: bpy.props.FloatVectorProperty(
         name="Color",
@@ -700,18 +720,19 @@ class WowLiquidPropertyGroup(bpy.types.PropertyGroup):
         size=4,
         min=0.0,
         max=1.0
-        )
+    )
 
     LiquidType: bpy.props.EnumProperty(
         items=liquid_type_enum,
         name="Liquid Type",
         description="Type of the liquid present in this WMO group"
-        )
+    )
 
-    WMOGroup: idproperty.ObjectIDProperty(
+    WMOGroup: bpy.props.PointerProperty(
+        type=bpy.types.Object,
         name="WMO Group",
-        validator=liquid_validator
-        )
+        # validator=liquid_validator,
+    )
 
 def RegisterWowLiquidProperties():
     bpy.types.Object.WowLiquid = bpy.props.PointerProperty(type=WowLiquidPropertyGroup)

@@ -1179,23 +1179,25 @@ class OBJECT_OP_To_WMOPortal(bpy.types.Operator):
     bl_description = 'Transfer all selected objects to WoW WMO portals'
     bl_options = {'REGISTER', 'UNDO'}
 
+    First: bpy.props.PointerProperty(  # type: ignore
+        type=bpy.types.Object,
+        name="First group",
+        # validator=portal_validator,
+    )
+
+    Second: bpy.props.PointerProperty(  # type: ignore
+        type=bpy.types.Object,
+        name="Second group",
+        # validator=portal_validator,
+    )
+
     def draw(self, context):
         layout = self.layout
         row = layout.row()
 
         column = layout.column()
-        idproperty.layout_id_prop(column, context.object.WowPortalPlane, "First")
-        idproperty.layout_id_prop(column, context.object.WowPortalPlane, "Second")
-
-    First = idproperty.ObjectIDProperty(
-        name="First group",
-        validator=portal_validator
-    )
-
-    Second = idproperty.ObjectIDProperty(
-        name="Second group",
-        validator=portal_validator
-    )
+        column.prop(context.object.WowPortalPlane, "First")
+        column.prop(context.object.WowPortalPlane, "Second")
 
     def portal_validator(ob):
         return ob.type == 'MESH' and ob.WowWMOGroup.Enabled

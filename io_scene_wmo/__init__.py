@@ -45,7 +45,7 @@ from .wmo.ui import enums
 from .wmo.ui import operators
 from .wmo.ui import panels
 from . import addon_updater_ops
-from .idproperty import idproperty
+# from .idproperty import idproperty
 from .mpq import wow as mpq
 from .wmo import export_wmo
 from .wmo import import_wmo
@@ -222,8 +222,8 @@ classes = (
 def register():
     # addon_updater_ops.register(bl_info)
 
-    print("register idproperty")
-    idproperty.register()
+    # print("register idproperty")
+    # idproperty.register()
     print("register import_m2")
     import_m2.register()
     print("register mpq")
@@ -254,7 +254,7 @@ def unregister():
     operators.unregister()
     mpq.unregister()
     import_m2.unregister()
-    idproperty.unregister()
+    # idproperty.unregister()
 
     # addon_updater_ops.unregister(bl_info)
 
